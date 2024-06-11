@@ -8,6 +8,7 @@
 #include <cuda.h>
 #include "bfs_cpu.hxx"  // Reference implementation
 #include <iostream>
+#include <nvToolsExt.h>
 using namespace gunrock;
 using namespace memory;
 
@@ -73,6 +74,10 @@ void test_bfs(int num_arguments, char** argument_array) {
   std::cout << "Number of runs : " << n_runs << std::endl;
 
   for (int i = 0; i < n_runs; i++) {
+    std::ostringstream oss;
+    oss << " This is the " << i + 1 << "th run" << std::endl;
+    std::string message = oss.str();
+    nvtxRangePushA(message.c_str());
     cuProfilerStart();
     benchmark::INIT_BENCH();
     if (DEFAULT_BFS_ALGORITHMS == "DAWN")
@@ -89,6 +94,7 @@ void test_bfs(int num_arguments, char** argument_array) {
 
     benchmark::DESTROY_BENCH();
     cuProfilerStop();
+    nvtxRangePop();
   }
 
   // Export metrics
