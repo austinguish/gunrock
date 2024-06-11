@@ -168,6 +168,7 @@ target_link_libraries(essentials
   INTERFACE cusparse
   INTERFACE ${CMAKE_THREAD_LIBS_INIT}
   INTERFACE cudart
+  INTERFACE nvToolsExt
 )
 
 # ###################################################
