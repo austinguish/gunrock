@@ -3,16 +3,17 @@ set(FETCHCONTENT_QUIET ON)
 
 message(STATUS "Cloning External Project: NVBench")
 get_filename_component(FC_BASE "${PROJECT_SOURCE_DIR}/externals"
-                REALPATH BASE_DIR "${CMAKE_BINARY_DIR}")
+  REALPATH BASE_DIR "${CMAKE_BINARY_DIR}")
 set(FETCHCONTENT_BASE_DIR ${FC_BASE})
 
 FetchContent_Declare(
-    nvbench
-    GIT_REPOSITORY https://github.com/NVIDIA/nvbench.git
-    GIT_TAG        main
+  nvbench
+  GIT_REPOSITORY https://github.com/NVIDIA/nvbench.git
+  GIT_TAG 9e8efa2c88b11a0253c0e7844fe45aee307e36e6
 )
 
 FetchContent_GetProperties(nvbench)
+
 if(NOT nvbench_POPULATED)
   FetchContent_Populate(
     nvbench

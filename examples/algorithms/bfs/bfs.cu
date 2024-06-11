@@ -3,7 +3,9 @@
 #include <gunrock/util/performance.hxx>
 #include <gunrock/io/parameters.hxx>
 #include <gunrock/framework/benchmark.hxx>
-
+#include <cudaProfiler.h>
+#include <cuda_profiler_api.h>
+#include <cuda.h>
 #include "bfs_cpu.hxx"  // Reference implementation
 
 using namespace gunrock;
@@ -68,6 +70,7 @@ void test_bfs(int num_arguments, char** argument_array) {
 
   auto benchmark_metrics = std::vector<benchmark::host_benchmark_t>(n_runs);
   for (int i = 0; i < n_runs; i++) {
+    cuProfilerStart();
     benchmark::INIT_BENCH();
     if (DEFAULT_BFS_ALGORITHMS == "DAWN")
       run_times.push_back(gunrock::dawn_bfs::run(G, source_vect[i],
@@ -82,6 +85,7 @@ void test_bfs(int num_arguments, char** argument_array) {
     benchmark_metrics[i] = metrics;
 
     benchmark::DESTROY_BENCH();
+    cuProfilerStop();
   }
 
   // Export metrics
