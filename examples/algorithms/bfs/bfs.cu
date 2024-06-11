@@ -7,7 +7,7 @@
 #include <cuda_profiler_api.h>
 #include <cuda.h>
 #include "bfs_cpu.hxx"  // Reference implementation
-
+#include <iostream>
 using namespace gunrock;
 using namespace memory;
 
@@ -69,6 +69,9 @@ void test_bfs(int num_arguments, char** argument_array) {
   std::vector<float> run_times;
 
   auto benchmark_metrics = std::vector<benchmark::host_benchmark_t>(n_runs);
+  std::cout << "Running BFS...\n";
+  std::cout << "Number of runs : " << n_runs << std::endl;
+
   for (int i = 0; i < n_runs; i++) {
     cuProfilerStart();
     benchmark::INIT_BENCH();
