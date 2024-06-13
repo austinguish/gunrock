@@ -3,12 +3,12 @@
 #include <gunrock/util/performance.hxx>
 #include <gunrock/io/parameters.hxx>
 #include <gunrock/framework/benchmark.hxx>
-#include <cudaProfiler.h>
-#include <cuda_profiler_api.h>
-#include <cuda.h>
 #include "bfs_cpu.hxx"  // Reference implementation
 #include <iostream>
 #include <nvToolsExt.h>
+#include <cudaProfiler.h>
+#include <cuda_profiler_api.h>
+#include <cuda.h>
 using namespace gunrock;
 using namespace memory;
 
