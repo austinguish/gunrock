@@ -2,7 +2,11 @@
 
 #include <gunrock/algorithms/color.hxx>
 #include "color_cpu.hxx"  // Reference implementation
-
+#include <iostream>
+#include <nvToolsExt.h>
+#include <cudaProfiler.h>
+#include <cuda_profiler_api.h>
+#include <cuda.h>
 using namespace gunrock;
 using namespace memory;
 
@@ -46,31 +50,32 @@ void test_color(int num_arguments, char** argument_array) {
 
   // --
   // GPU Run
-
+  cuProfilerStart();
   float gpu_elapsed = gunrock::color::run(G, colors.data().get());
+  cuProfilerStop();
+  // // --
+  // // CPU Run
 
-  // --
-  // CPU Run
+  // thrust::host_vector<vertex_t> h_colors(n_vertices);
 
-  thrust::host_vector<vertex_t> h_colors(n_vertices);
+  // float cpu_elapsed =
+  //     color_cpu::run<csr_t, vertex_t, edge_t, weight_t>(csr,
+  //     h_colors.data());
 
-  float cpu_elapsed =
-      color_cpu::run<csr_t, vertex_t, edge_t, weight_t>(csr, h_colors.data());
+  // int n_errors = color_cpu::compute_error<csr_t, vertex_t, edge_t, weight_t>(
+  //     csr, colors, h_colors);
 
-  int n_errors = color_cpu::compute_error<csr_t, vertex_t, edge_t, weight_t>(
-      csr, colors, h_colors);
-
-  std::vector<int> stl_colors(n_vertices);
-  thrust::copy(colors.begin(), colors.end(), stl_colors.begin());
-  int n_colors = std::set(stl_colors.begin(), stl_colors.end()).size();
+  // std::vector<int> stl_colors(n_vertices);
+  // thrust::copy(colors.begin(), colors.end(), stl_colors.begin());
+  // int n_colors = std::set(stl_colors.begin(), stl_colors.end()).size();
 
   // --
   // Log
   print::head(colors, 40, "GPU colors");
-  print::head(h_colors, 40, "CPU colors");
+  // print::head(h_colors, 40, "CPU colors");
 
   std::cout << "GPU Elapsed Time : " << gpu_elapsed << " (ms)" << std::endl;
-  std::cout << "CPU Elapsed Time : " << cpu_elapsed << " (ms)" << std::endl;
+  // std::cout << "CPU Elapsed Time : " << cpu_elapsed << " (ms)" << std::endl;
   std::cout << "Number of colors : " << n_colors << std::endl;
   std::cout << "Number of errors : " << n_errors << std::endl;
 }
