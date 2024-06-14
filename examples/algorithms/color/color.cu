@@ -75,9 +75,6 @@ void test_color(int num_arguments, char** argument_array) {
   // print::head(h_colors, 40, "CPU colors");
 
   std::cout << "GPU Elapsed Time : " << gpu_elapsed << " (ms)" << std::endl;
-  // std::cout << "CPU Elapsed Time : " << cpu_elapsed << " (ms)" << std::endl;
-  std::cout << "Number of colors : " << n_colors << std::endl;
-  std::cout << "Number of errors : " << n_errors << std::endl;
 }
 
 int main(int argc, char** argv) {
